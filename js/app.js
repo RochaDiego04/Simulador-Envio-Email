@@ -1,28 +1,44 @@
 document.addEventListener('DOMContentLoaded', function(){
    
+    const email = {
+        email: '',
+        asunto: '',
+        mensaje: ''
+    }
+
     // Seleccionando elementos de la interfaz
     const inputEmail = document.querySelector('#email');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
+    const btnSubmit = document.querySelector('#formulario button[type="submit"]');
 
     // Asignar eventos
-    inputEmail.addEventListener('blur', validar);
-    inputAsunto.addEventListener('blur', validar);
-    inputMensaje.addEventListener('blur', validar);
+    inputEmail.addEventListener('input', validar);
+    inputAsunto.addEventListener('input', validar);
+    inputMensaje.addEventListener('input', validar);
 
     function validar(e) {
         if(e.target.value.trim() === ''){
             mostrarAlerta(`El campo ${e.target.id} es obligatorio`, e.target.parentElement)
+            email[e.target.name] = '';
+            comprobarEmail();
             return; // Detener ejecución del código
         }
 
         if(e.target.id === 'email' && !validarEmail(e.target.value)){
             mostrarAlerta('El email no es valido',  e.target.parentElement);
+            email[e.target.name] = '';
+            comprobarEmail();
             return;
         }
 
         limpiarAlerta(e.target.parentElement);
+        // Asignar valores al objeto email
+        email[e.target.name] = e.target.value.trim().toLowerCase();
+        
+        // Comprobar el objeto de email
+        comprobarEmail();
     }
 
     function mostrarAlerta(mensaje, referencia) {
@@ -54,4 +70,14 @@ document.addEventListener('DOMContentLoaded', function(){
         return resultado;    
     }
     
+    function comprobarEmail() {
+        if(Object.values(email).includes('')){
+            btnSubmit.classList.add('opacity-50');
+            btnSubmit.disabled = true;
+            return
+        }
+        btnSubmit.classList.remove('opacity-50');
+        btnSubmit.disabled = false;
+    }
+
 });
