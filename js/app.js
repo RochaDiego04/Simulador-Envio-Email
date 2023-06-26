@@ -23,14 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     btnReset.addEventListener('click', function(e){
         e.preventDefault();
-
-        // Reiniciar el objeto
-        email.email = '';
-        email.asunto = '';
-        email.mensaje = '';
-
-        formulario.reset();
-        comprobarEmail();
+        resetFormulario();
     })
 
     // Funciones
@@ -59,7 +52,28 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function enviarEmail(e) {
+        e.preventDefault();
+        
+        spinner.classList.add('flex');
+        spinner.classList.remove('hidden');
 
+        setTimeout(() => {
+            spinner.classList.remove('flex');
+            spinner.classList.add('hidden');
+
+            resetFormulario();
+
+            //Alerta de envío del formulario
+            const alertaExito = document.createElement('P');
+            alertaExito.classList.add('bg-green-500', 'text-white', 'p-2', 'text-center', 'rounded-lg', 'mt-10', 'font-bold', 'text-sm', 'uppercase');
+            alertaExito.textContent = 'Mensaje enviado correctamente';
+
+            formulario.appendChild(alertaExito);
+
+            setTimeout(() => {
+                alertaExito.remove();
+            }, 3000);
+        }, 1200);
     }
 
     function mostrarAlerta(mensaje, referencia) {
@@ -99,6 +113,16 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         btnSubmit.classList.remove('opacity-50');
         btnSubmit.disabled = false;
+    }
+
+    function resetFormulario() {
+        // Reiniciar el objeto
+        email.email = '';
+        email.asunto = '';
+        email.mensaje = '';
+
+        formulario.reset();
+        comprobarEmail();
     }
 
 });
