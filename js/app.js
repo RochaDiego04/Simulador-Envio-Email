@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function(){
     btnReset.addEventListener('click', function(e){
         e.preventDefault();
         resetFormulario();
+        eliminarAlertas();
     })
 
     // Funciones
@@ -51,11 +52,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 mostrarAlerta('El destinatario agregado no es valido',  e.target.parentElement);
                 email[e.target.name] = e.target.value.trim().toLowerCase();
                 comprobarEmail();
-                console.log(email)
                 return;
             } 
             e.target.value.trim()
-            console.log(email)    
         }
 
         limpiarAlerta(e.target.parentElement);
@@ -142,6 +141,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
         formulario.reset();
         comprobarEmail();
+    }
+
+    function eliminarAlertas() {
+        const alertas = formulario.querySelectorAll('.bg-red-600');
+        alertas.forEach(alerta => {
+            alerta.remove();
+        });
     }
 
 });
